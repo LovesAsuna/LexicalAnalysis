@@ -1,9 +1,11 @@
+package com.hyosakura.wordsplit
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import common.Settings
-import window.WordSplitWindowState
+import com.hyosakura.wordsplit.common.Settings
+import com.hyosakura.wordsplit.window.WordSplitWindowState
 
 @Composable
 fun rememberApplicationState(exit: (WordSplitWindowState) -> Unit) = remember { WordSplitApplicationState(exit) }

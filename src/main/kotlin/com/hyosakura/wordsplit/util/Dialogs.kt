@@ -1,4 +1,4 @@
-package util
+package com.hyosakura.wordsplit.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -40,32 +40,3 @@ fun FrameWindowScope.FileDialog(
     },
     dispose = FileDialog::dispose
 )
-
-@Composable
-fun WindowScope.YesNoCancelDialog(
-    title: String,
-    message: String,
-    onResult: (result: AlertDialogResult) -> Unit
-) {
-    DisposableEffect(Unit) {
-        val job = GlobalScope.launch(Dispatchers.Swing) {
-            val resultInt = JOptionPane.showConfirmDialog(
-                window, message, title, JOptionPane.YES_NO_CANCEL_OPTION
-            )
-            val result = when (resultInt) {
-                JOptionPane.YES_OPTION -> AlertDialogResult.Yes
-                JOptionPane.NO_OPTION -> AlertDialogResult.No
-                else -> AlertDialogResult.Cancel
-            }
-            onResult(result)
-        }
-
-        onDispose {
-            job.cancel()
-        }
-    }
-}
-
-enum class AlertDialogResult {
-    Yes, No, Cancel
-}

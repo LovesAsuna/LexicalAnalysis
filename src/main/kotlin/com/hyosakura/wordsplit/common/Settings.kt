@@ -1,4 +1,4 @@
-package common
+package com.hyosakura.wordsplit.common
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

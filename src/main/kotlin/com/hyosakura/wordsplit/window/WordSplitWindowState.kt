@@ -1,13 +1,15 @@
-package window
+package com.hyosakura.wordsplit.window
 
-import WordSplitApplicationState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
-import common.Settings
+import com.hyosakura.wordsplit.WordSplitApplicationState
+import com.hyosakura.wordsplit.common.Settings
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,7 +22,7 @@ class WordSplitWindowState(
 ) {
     val settings: Settings get() = application.settings
 
-    val window = WindowState()
+    val window = WindowState(height = 800.dp)
 
     var path by mutableStateOf(path)
         private set
@@ -92,10 +94,6 @@ class WordSplitWindowState(
     fun sendNotification(notification: Notification) {
         application.sendNotification(notification)
     }
-}
-
-private suspend fun Path.writeTextAsync(text: String) = withContext(Dispatchers.IO) {
-    toFile().writeText(text)
 }
 
 private suspend fun Path.readTextAsync() = withContext(Dispatchers.IO) {

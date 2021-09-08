@@ -1,11 +1,13 @@
+package com.hyosakura.wordsplit
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.Tray
-import common.LocalAppResources
+import com.hyosakura.wordsplit.common.LocalAppResources
+import com.hyosakura.wordsplit.window.WordSplitWindow
 import kotlinx.coroutines.launch
-import window.WordSplitWindow
 
 @Composable
 fun WordSplitApplication(state: WordSplitApplicationState) {

@@ -1,4 +1,4 @@
-package util
+package com.hyosakura.wordsplit.util
 
 import androidx.compose.runtime.Applier
 import androidx.compose.runtime.Composable

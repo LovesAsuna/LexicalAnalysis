@@ -1,4 +1,4 @@
-package util
+package com.hyosakura.wordsplit.util
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.geometry.isSpecified
