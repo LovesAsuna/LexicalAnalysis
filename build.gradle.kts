@@ -3,8 +3,8 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.21"
-    id("org.jetbrains.compose") version "1.0.0-alpha3"
+    kotlin("jvm") version "1.5.30"
+    id("org.jetbrains.compose") version "1.0.0-alpha4-build331"
 }
 
 group = "com.hyosakura"
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.21")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.30")
     implementation(compose.desktop.currentOs)
 }
 
