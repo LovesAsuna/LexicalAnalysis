@@ -7,30 +7,33 @@ import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.FrameWindowScope
-import androidx.compose.ui.window.MenuBar
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowPlacement
+import androidx.compose.ui.window.*
 import com.hyosakura.wordsplit.common.LocalAppResources
-import com.hyosakura.wordsplit.enumeration.Token
 import com.hyosakura.wordsplit.util.FileDialog
-import com.hyosakura.wordsplit.util.WordSplit
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.ui.unit.ExperimentalUnitApi::class)
 @Composable
 fun WordSplitWindow(state: WordSplitWindowState) {
     val scope = rememberCoroutineScope()
+
+    fun drawResult(state: WordSplitWindowState) {
+        state.tokens.clear()
+        state.tokens.addAll(state.wordSplit.split(state.text))
+    }
 
     fun exit() = scope.launch { state.exit() }
 
@@ -44,32 +47,49 @@ fun WordSplitWindow(state: WordSplitWindowState) {
 
         WindowMenuBar(state)
 
-        var tokens: MutableList<Token>? by remember { mutableStateOf(null) }
-
-        Column {
+        Column(modifier = Modifier.background(Color(255, 255, 210))) {
             Box(modifier = Modifier.width(800.dp).height(400.dp)) {
                 Row {
                     OutlinedTextField(
                         value = state.text,
                         onValueChange = {
                             state.text = it
-                            tokens?.clear()
-                            tokens = drawResult(state)
+                            drawResult(state)
                         },
                         modifier = Modifier.width(400.dp).height(400.dp)
                     )
-                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(400.dp)) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.width(400.dp).offset(y = 20.dp)
+                    ) {
                         Spacer(Modifier.height(10.dp))
                         Text("单词拼装器", fontSize = TextUnit(27.5F, TextUnitType.Sp), fontFamily = FontFamily.Serif)
                         Image(
                             painter = LocalAppResources.current.icon,
                             contentDescription = "logo",
-                            modifier = Modifier.width(250.dp).height(250.dp).clickable {
+                            modifier = Modifier.width(250.dp).height(250.dp).clickable(role = Role.Image) {
                                 Runtime.getRuntime().exec("cmd /c start https://blog.hyosakura.com")
                             }
                         )
-                        Button(onClick = {}) {
-                            Text("test")
+                        Row {
+                            Button(onClick = {
+                                drawResult(state)
+                                state.application.sendNotification(
+                                    Notification(
+                                        "WordSplit",
+                                        "word split completed",
+                                        Notification.Type.Info
+                                    )
+                                )
+                            }) {
+                                Text("Split")
+                            }
+                            Spacer(modifier = Modifier.width(5.dp))
+                            Button(onClick = {
+                                state.application.replaceWindowState.visible = true
+                            }) {
+                                Text("Replace")
+                            }
                         }
                     }
                 }
@@ -80,29 +100,27 @@ fun WordSplitWindow(state: WordSplitWindowState) {
 
                 Box {
                     Column(modifier = Modifier.verticalScroll(stateHorizontal)) {
-                        if (tokens != null) {
-                            for (token in tokens!!) {
-                                Row {
-                                    Surface(
-                                        modifier = Modifier.shadow(4.dp).width(state.window.size.width / 2),
-                                        color = Color(255, 255, 210),
-                                        shape = RoundedCornerShape(4.dp)
-                                    ) {
-                                        Text(
-                                            text = token.value,
-                                            modifier = Modifier.padding(5.dp)
-                                        )
-                                    }
-                                    Surface(
-                                        modifier = Modifier.shadow(4.dp).width(state.window.size.width / 2),
-                                        color = Color(255, 255, 210),
-                                        shape = RoundedCornerShape(4.dp)
-                                    ) {
-                                        Text(
-                                            text = token.type,
-                                            modifier = Modifier.padding(5.dp)
-                                        )
-                                    }
+                        for (token in state.tokens) {
+                            Row {
+                                Surface(
+                                    modifier = Modifier.shadow(4.dp).width(state.window.size.width / 2),
+                                    color = Color(215, 200, 170),
+                                    shape = RoundedCornerShape(4.dp)
+                                ) {
+                                    Text(
+                                        text = token.value,
+                                        modifier = Modifier.padding(5.dp)
+                                    )
+                                }
+                                Surface(
+                                    modifier = Modifier.shadow(4.dp).width(state.window.size.width / 2),
+                                    color = Color(215, 200, 170),
+                                    shape = RoundedCornerShape(4.dp)
+                                ) {
+                                    Text(
+                                        text = token.type,
+                                        modifier = Modifier.padding(5.dp)
+                                    )
                                 }
                             }
                         }
@@ -159,7 +177,3 @@ private fun FrameWindowScope.WindowMenuBar(state: WordSplitWindowState) = MenuBa
     }
 }
 
-fun drawResult(state: WordSplitWindowState): MutableList<Token> {
-    val wordSplit = WordSplit()
-    return wordSplit.split(state.text)
-}

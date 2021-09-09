@@ -1,28 +1,35 @@
 package com.hyosakura.wordsplit.window
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import com.hyosakura.wordsplit.WordSplitApplicationState
+import com.hyosakura.wordsplit.addon.Converter
 import com.hyosakura.wordsplit.common.Settings
+import com.hyosakura.wordsplit.enumeration.Token
+import com.hyosakura.wordsplit.util.WordSplit
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.nio.file.Path
 
 class WordSplitWindowState(
-    private val application: WordSplitApplicationState,
+    val application: WordSplitApplicationState,
     path: Path?,
     private val exit: (WordSplitWindowState) -> Unit
 ) {
     val settings: Settings get() = application.settings
 
     val window = WindowState(height = 800.dp)
+
+    val converter by mutableStateOf(Converter.DefaultConverter(application.replaceWindowState))
+
+    val wordSplit = WordSplit(converter)
+
+    var tokens = mutableStateListOf<Token>()
 
     var path by mutableStateOf(path)
         private set
@@ -89,7 +96,6 @@ class WordSplitWindowState(
     }
 
     fun exit() = exit(this)
-
 
     fun sendNotification(notification: Notification) {
         application.sendNotification(notification)

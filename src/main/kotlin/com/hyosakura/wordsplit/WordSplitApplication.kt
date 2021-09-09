@@ -3,21 +3,24 @@ package com.hyosakura.wordsplit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.Tray
 import com.hyosakura.wordsplit.common.LocalAppResources
 import com.hyosakura.wordsplit.window.WordSplitWindow
+import com.hyosakura.wordsplit.window.ReplaceWindow
 import kotlinx.coroutines.launch
 
 @Composable
-fun WordSplitApplication(state: WordSplitApplicationState) {
+fun ApplicationScope.WordSplitApplication(state: WordSplitApplicationState) {
     ApplicationTray(state)
-    WordSplitWindow(state.window)
+    WordSplitWindow(state.wordSplitWindowState)
+    ReplaceWindow(state.replaceWindowState)
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ApplicationTray(state: WordSplitApplicationState) {
+private fun ApplicationScope.ApplicationTray(state: WordSplitApplicationState) {
     Tray(
         LocalAppResources.current.icon,
         state = state.tray,
