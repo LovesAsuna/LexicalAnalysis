@@ -15,11 +15,19 @@ class WordSplit(private val converter: Converter? = null) {
     private var stream = false
 
     companion object {
-        fun getToken(buffer: CharSequence): Token? {
-            getKeyWord(buffer)?.let {
-                return it
+        var keywordMap: HashMap<String, Token> = HashMap()
+
+        init {
+            KeyWord.values().forEach {
+                keywordMap[it.value] = it
             }
-            getOperator(buffer)?.let {
+            Operator.values().forEach {
+                keywordMap[it.value] = it
+            }
+        }
+
+        fun getToken(buffer: CharSequence): Token? {
+            keywordMap[buffer.toString()]?.let {
                 return it
             }
             getNumber(buffer)?.let {
@@ -27,25 +35,6 @@ class WordSplit(private val converter: Converter? = null) {
             }
             getString(buffer)?.let {
                 return it
-            }
-            return null
-        }
-
-        private fun getKeyWord(buffer: CharSequence): Token? {
-            KeyWord.values().forEach {
-                if (it.value == buffer.toString()) {
-                    return it
-                }
-            }
-            return null
-        }
-
-        private fun getOperator(buffer: CharSequence): Token? {
-            if (buffer.toString().isEmpty()) return null
-            Operator.values().forEach {
-                if (it.value == buffer.toString()) {
-                    return it
-                }
             }
             return null
         }
@@ -98,7 +87,7 @@ class WordSplit(private val converter: Converter? = null) {
                 macro = false
                 var i = 0
                 while (i < length) {
-                    val c = converter?.convert(line!![i++].toString())!![0]
+                    val c = converter?.convert(line!![i++].toString())?.get(0) ?: line!![i++].toString()[0]
                     if (c == ' ') {
                         continue
                     }
@@ -115,7 +104,7 @@ class WordSplit(private val converter: Converter? = null) {
                         break
                     }
                     buffer.append(c)
-                    val token = getToken(converter.convert(buffer))
+                    val token = getToken(converter?.convert(buffer) ?: buffer)
                     // 找不到token
                     if (token == null) {
                         getSplitToken(buffer)?.forEachIndexed { _, t -> tokenList.add(t) }
@@ -147,7 +136,7 @@ class WordSplit(private val converter: Converter? = null) {
                                 break
                             }
                             string.append(line!![i++])
-                            val convertedString = converter.convert(string)
+                            val convertedString = converter?.convert(string) ?: string.toString()
                             val array = getSplitToken(string.clear().append(convertedString))
                             if (array != null) {
                                 add = true
