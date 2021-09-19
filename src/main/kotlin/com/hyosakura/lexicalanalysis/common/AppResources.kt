@@ -1,4 +1,4 @@
-package com.hyosakura.wordsplit.common
+package com.hyosakura.lexicalanalysis.common
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings

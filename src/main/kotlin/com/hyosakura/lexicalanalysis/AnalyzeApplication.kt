@@ -1,4 +1,4 @@
-package com.hyosakura.wordsplit
+package com.hyosakura.lexicalanalysis
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -6,9 +6,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.Tray
-import com.hyosakura.wordsplit.common.LocalAppResources
-import com.hyosakura.wordsplit.window.WordSplitWindow
-import com.hyosakura.wordsplit.window.ReplaceWindow
+import com.hyosakura.lexicalanalysis.common.LocalAppResources
+import com.hyosakura.lexicalanalysis.window.WordSplitWindow
+import com.hyosakura.lexicalanalysis.window.ReplaceWindow
 import kotlinx.coroutines.launch
 
 @Composable

@@ -1,4 +1,4 @@
-package com.hyosakura.wordsplit.enumeration
+package com.hyosakura.lexicalanalysis.enumeration
 
 /**
  * @author LovesAsuna

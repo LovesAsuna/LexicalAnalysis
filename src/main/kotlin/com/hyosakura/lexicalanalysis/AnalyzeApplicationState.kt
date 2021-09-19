@@ -1,12 +1,12 @@
-package com.hyosakura.wordsplit
+package com.hyosakura.lexicalanalysis
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import com.hyosakura.wordsplit.common.Settings
-import com.hyosakura.wordsplit.window.ReplaceWindowState
-import com.hyosakura.wordsplit.window.WordSplitWindowState
+import com.hyosakura.lexicalanalysis.common.Settings
+import com.hyosakura.lexicalanalysis.window.ReplaceWindowState
+import com.hyosakura.lexicalanalysis.window.WordSplitWindowState
 
 @Composable
 fun rememberApplicationState(applicationExit: () -> Unit) = remember {

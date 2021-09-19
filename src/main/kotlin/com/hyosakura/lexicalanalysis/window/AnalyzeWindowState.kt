@@ -1,16 +1,15 @@
-package com.hyosakura.wordsplit.window
+package com.hyosakura.lexicalanalysis.window
 
 import androidx.compose.runtime.*
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
-import com.hyosakura.wordsplit.WordSplitApplicationState
-import com.hyosakura.wordsplit.addon.Converter
-import com.hyosakura.wordsplit.common.Settings
-import com.hyosakura.wordsplit.enumeration.Token
-import com.hyosakura.wordsplit.util.WordSplit
+import com.hyosakura.lexicalanalysis.WordSplitApplicationState
+import com.hyosakura.lexicalanalysis.addon.Converter
+import com.hyosakura.lexicalanalysis.common.Settings
+import com.hyosakura.lexicalanalysis.enumeration.Token
+import com.hyosakura.lexicalanalysis.util.WordSplit
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

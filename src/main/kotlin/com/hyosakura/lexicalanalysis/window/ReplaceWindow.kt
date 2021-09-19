@@ -1,4 +1,4 @@
-package com.hyosakura.wordsplit.window
+package com.hyosakura.lexicalanalysis.window
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
-import com.hyosakura.wordsplit.common.LocalAppResources
+import com.hyosakura.lexicalanalysis.common.LocalAppResources
 import kotlinx.coroutines.launch
 
 @Composable

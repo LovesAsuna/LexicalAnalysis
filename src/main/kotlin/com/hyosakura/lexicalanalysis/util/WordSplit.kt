@@ -1,8 +1,8 @@
-package com.hyosakura.wordsplit.util
+package com.hyosakura.lexicalanalysis.util
 
-import com.hyosakura.wordsplit.addon.Converter
-import com.hyosakura.wordsplit.enumeration.*
-import com.hyosakura.wordsplit.enumeration.Number
+import com.hyosakura.lexicalanalysis.addon.Converter
+import com.hyosakura.lexicalanalysis.enumeration.*
+import com.hyosakura.lexicalanalysis.enumeration.Number
 import java.io.BufferedReader
 import java.io.File
 import java.util.*

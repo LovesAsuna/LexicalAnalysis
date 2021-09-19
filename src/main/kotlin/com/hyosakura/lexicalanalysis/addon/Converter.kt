@@ -1,6 +1,6 @@
-package com.hyosakura.wordsplit.addon
+package com.hyosakura.lexicalanalysis.addon
 
-import com.hyosakura.wordsplit.window.ReplaceWindowState
+import com.hyosakura.lexicalanalysis.window.ReplaceWindowState
 
 /**
  * @author LovesAsuna

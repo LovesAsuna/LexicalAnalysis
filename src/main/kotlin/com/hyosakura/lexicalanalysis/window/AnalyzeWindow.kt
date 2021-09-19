@@ -1,4 +1,4 @@
-package com.hyosakura.wordsplit.window
+package com.hyosakura.lexicalanalysis.window
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.hyosakura.wordsplit.common.LocalAppResources
-import com.hyosakura.wordsplit.util.FileDialog
+import com.hyosakura.lexicalanalysis.common.LocalAppResources
+import com.hyosakura.lexicalanalysis.util.FileDialog
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.ui.unit.ExperimentalUnitApi::class)
