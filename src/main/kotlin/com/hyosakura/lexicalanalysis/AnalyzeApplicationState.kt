@@ -6,28 +6,25 @@ import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import com.hyosakura.lexicalanalysis.common.Settings
 import com.hyosakura.lexicalanalysis.window.ReplaceWindowState
-import com.hyosakura.lexicalanalysis.window.WordSplitWindowState
+import com.hyosakura.lexicalanalysis.window.AnalyzeWindowState
 
 @Composable
 fun rememberApplicationState(applicationExit: () -> Unit) = remember {
-    WordSplitApplicationState {
+    AnalyzeApplicationState {
         applicationExit()
     }
 }
 
 
-class WordSplitApplicationState(exit: (WordSplitWindowState) -> Unit) {
+class AnalyzeApplicationState(exit: (AnalyzeWindowState) -> Unit) {
     val settings = Settings()
     val tray = TrayState()
 
-    val replaceWindowState = ReplaceWindowState(
-        application = this,
-        exit = {
-            it.visible = false
-        }
-    )
+    val replaceWindowState = ReplaceWindowState {
+        it.visible = false
+    }
 
-    val wordSplitWindowState = WordSplitWindowState(
+    val analyzeWindowState = AnalyzeWindowState(
         application = this,
         path = null,
         exit = {
@@ -40,6 +37,6 @@ class WordSplitApplicationState(exit: (WordSplitWindowState) -> Unit) {
     }
 
     fun exit() {
-        wordSplitWindowState.exit()
+        analyzeWindowState.exit()
     }
 }

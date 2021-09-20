@@ -9,7 +9,7 @@ import com.hyosakura.lexicalanalysis.common.rememberAppResources
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
     CompositionLocalProvider(LocalAppResources provides rememberAppResources()) {
-        WordSplitApplication(rememberApplicationState {
+        AnalyzeApplication(rememberApplicationState {
             this.exitApplication()
         })
     }

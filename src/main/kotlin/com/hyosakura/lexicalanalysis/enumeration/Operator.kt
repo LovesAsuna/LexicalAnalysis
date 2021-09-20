@@ -28,8 +28,8 @@ enum class Operator(override val value: String) : Token {
     RBRACKET("}"),
     COMMA(","),
     SEMICOLON(";"),
-    SIN("<<"),
-    SOUT(">>");
+    SIN(">>"),
+    SOUT("<<");
 
     override val type: String = "特殊字符"
 }

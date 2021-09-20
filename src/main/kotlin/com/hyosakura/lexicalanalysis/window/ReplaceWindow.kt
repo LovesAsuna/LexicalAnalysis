@@ -42,7 +42,6 @@ fun ReplaceWindow(state: ReplaceWindowState) {
                         Row(row) {
                             if (it.first.isEmpty() && it.second.isEmpty()) {
                                 state.rows.remove(it)
-                                // state.application.wordSplitWindowState.converter.removeMapping(index)
                             }
                             false
                         }

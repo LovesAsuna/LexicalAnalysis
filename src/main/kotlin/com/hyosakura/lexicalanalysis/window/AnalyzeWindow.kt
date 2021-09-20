@@ -27,10 +27,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.ui.unit.ExperimentalUnitApi::class)
 @Composable
-fun WordSplitWindow(state: WordSplitWindowState) {
+fun AnalyzeWindow(state: AnalyzeWindowState) {
     val scope = rememberCoroutineScope()
 
-    fun drawResult(state: WordSplitWindowState) {
+    fun drawResult(state: AnalyzeWindowState) {
         state.tokens.clear()
         state.tokens.addAll(state.wordSplit.split(state.text))
     }
@@ -63,7 +63,7 @@ fun WordSplitWindow(state: WordSplitWindowState) {
                         modifier = Modifier.width(400.dp).offset(y = 20.dp)
                     ) {
                         Spacer(Modifier.height(10.dp))
-                        Text("单词拼装器", fontSize = TextUnit(27.5F, TextUnitType.Sp), fontFamily = FontFamily.Serif)
+                        Text("词法分析器", fontSize = TextUnit(27.5F, TextUnitType.Sp), fontFamily = FontFamily.Serif)
                         Image(
                             painter = LocalAppResources.current.icon,
                             contentDescription = "logo",
@@ -76,8 +76,8 @@ fun WordSplitWindow(state: WordSplitWindowState) {
                                 drawResult(state)
                                 state.application.sendNotification(
                                     Notification(
-                                        "WordSplit",
-                                        "word split completed",
+                                        "LexicalAnalysis",
+                                        "analyze completed",
                                         Notification.Type.Info
                                     )
                                 )
@@ -135,7 +135,7 @@ fun WordSplitWindow(state: WordSplitWindowState) {
 
         if (state.openDialog.isAwaiting) {
             FileDialog(
-                title = "Notepad",
+                title = "LexicalAnalysis",
                 isLoad = true,
                 onResult = {
                     state.openDialog.onResult(it)
@@ -146,14 +146,14 @@ fun WordSplitWindow(state: WordSplitWindowState) {
     }
 }
 
-private fun titleOf(state: WordSplitWindowState): String {
+private fun titleOf(state: AnalyzeWindowState): String {
     val changeMark = if (state.isChanged) "*" else ""
     val filePath = state.path ?: "Untitled"
-    return "$changeMark$filePath - WordSplit"
+    return "$changeMark$filePath - LexicalAnalysis"
 }
 
 @Composable
-private fun FrameWindowScope.WindowMenuBar(state: WordSplitWindowState) = MenuBar {
+private fun FrameWindowScope.WindowMenuBar(state: AnalyzeWindowState) = MenuBar {
     val scope = rememberCoroutineScope()
 
     fun open() = scope.launch { state.open() }

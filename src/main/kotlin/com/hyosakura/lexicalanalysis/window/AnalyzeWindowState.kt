@@ -5,20 +5,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
-import com.hyosakura.lexicalanalysis.WordSplitApplicationState
+import com.hyosakura.lexicalanalysis.AnalyzeApplicationState
 import com.hyosakura.lexicalanalysis.addon.Converter
 import com.hyosakura.lexicalanalysis.common.Settings
 import com.hyosakura.lexicalanalysis.enumeration.Token
-import com.hyosakura.lexicalanalysis.util.WordSplit
+import com.hyosakura.lexicalanalysis.util.Analyzer
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.nio.file.Path
 
-class WordSplitWindowState(
-    val application: WordSplitApplicationState,
+class AnalyzeWindowState(
+    val application: AnalyzeApplicationState,
     path: Path?,
-    private val exit: (WordSplitWindowState) -> Unit
+    private val exit: (AnalyzeWindowState) -> Unit
 ) {
     val settings: Settings get() = application.settings
 
@@ -26,7 +26,7 @@ class WordSplitWindowState(
 
     val converter by mutableStateOf(Converter.DefaultConverter(application.replaceWindowState))
 
-    val wordSplit = WordSplit(converter)
+    val wordSplit = Analyzer(converter)
 
     var tokens = mutableStateListOf<Token>()
 

@@ -6,10 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
-import com.hyosakura.lexicalanalysis.WordSplitApplicationState
+import com.hyosakura.lexicalanalysis.AnalyzeApplicationState
 
 class ReplaceWindowState(
-    val application: WordSplitApplicationState,
     private val exit: (ReplaceWindowState) -> Unit
 ) {
     var visible by mutableStateOf(false)

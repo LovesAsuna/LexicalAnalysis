@@ -7,30 +7,30 @@ import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.Tray
 import com.hyosakura.lexicalanalysis.common.LocalAppResources
-import com.hyosakura.lexicalanalysis.window.WordSplitWindow
+import com.hyosakura.lexicalanalysis.window.AnalyzeWindow
 import com.hyosakura.lexicalanalysis.window.ReplaceWindow
 import kotlinx.coroutines.launch
 
 @Composable
-fun ApplicationScope.WordSplitApplication(state: WordSplitApplicationState) {
+fun ApplicationScope.AnalyzeApplication(state: AnalyzeApplicationState) {
     ApplicationTray(state)
-    WordSplitWindow(state.wordSplitWindowState)
+    AnalyzeWindow(state.analyzeWindowState)
     ReplaceWindow(state.replaceWindowState)
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ApplicationScope.ApplicationTray(state: WordSplitApplicationState) {
+private fun ApplicationScope.ApplicationTray(state: AnalyzeApplicationState) {
     Tray(
         LocalAppResources.current.icon,
         state = state.tray,
-        hint = "WordSplit",
+        hint = "LexicalAnalysis",
         menu = { ApplicationMenu(state) }
     )
 }
 
 @Composable
-private fun MenuScope.ApplicationMenu(state: WordSplitApplicationState) {
+private fun MenuScope.ApplicationMenu(state: AnalyzeApplicationState) {
     val scope = rememberCoroutineScope()
     fun exit() = scope.launch { state.exit() }
 
