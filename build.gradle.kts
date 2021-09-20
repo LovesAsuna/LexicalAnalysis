@@ -36,9 +36,9 @@ tasks.compileKotlin {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "com.hyosakura.lexicalanalysis.MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Exe)
             packageName = "compose"
             packageVersion = "1.0.0"
         }
