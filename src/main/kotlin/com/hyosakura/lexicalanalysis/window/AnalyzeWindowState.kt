@@ -1,6 +1,9 @@
 package com.hyosakura.lexicalanalysis.window
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
@@ -26,9 +29,13 @@ class AnalyzeWindowState(
 
     val converter by mutableStateOf(Converter.DefaultConverter(application.replaceWindowState))
 
-    val wordSplit = Analyzer(converter)
+    val analyzer = Analyzer(converter)
 
     var tokens = mutableStateListOf<Token>()
+
+    var openErrorDialog by mutableStateOf(false)
+
+    var errorText by mutableStateOf("")
 
     var path by mutableStateOf(path)
         private set

@@ -3,16 +3,28 @@ package com.hyosakura.lexicalanalysis.util
 import com.hyosakura.lexicalanalysis.addon.Converter
 import com.hyosakura.lexicalanalysis.enumeration.*
 import com.hyosakura.lexicalanalysis.enumeration.Number
+import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.File
 import java.util.*
 
 class Analyzer(private val converter: Converter? = null) {
     private val buffer = StringBuilder()
-    private var tokenList = LinkedList<Token>()
+    private var tokenList = object : LinkedList<Token>() {
+        override fun add(element: Token): Boolean {
+            log.debug("add $element to result list")
+            return super.add(element)
+        }
+
+        override fun clear() {
+            log.debug("clear result list")
+            return super.clear()
+        }
+    }
     private var macro = false
 
     companion object {
+        private val log = LoggerFactory.getLogger(Analyzer::class.java)
         var keywordMap: HashMap<String, Token> = HashMap()
 
         init {
@@ -69,15 +81,15 @@ class Analyzer(private val converter: Converter? = null) {
         return null
     }
 
-    fun split(text: String): MutableList<Token> {
-        return split(text.byteInputStream().bufferedReader())
+    fun analyze(text: String): MutableList<Token> {
+        return doAnalyze(text.byteInputStream().bufferedReader())
     }
 
-    fun split(file: File): MutableList<Token> {
-        return split(file.bufferedReader())
+    fun analyze(file: File): MutableList<Token> {
+        return doAnalyze(file.bufferedReader())
     }
 
-    private fun split(reader: BufferedReader): MutableList<Token> {
+    private fun doAnalyze(reader: BufferedReader): MutableList<Token> {
         buffer.clear()
         tokenList.clear()
         var line: String?
@@ -113,6 +125,10 @@ class Analyzer(private val converter: Converter? = null) {
                     if (token == null) {
                         while (i + 1 <= length - 1 && line!![i + 1] == ' ') {
                             i++
+                        }
+                        if (i + 1 >= length) {
+                            tokenList.add(Identifier(line!!))
+                            break
                         }
                         getToken(line!![i + 1].toString()).let {
                             if (it is Operator) {

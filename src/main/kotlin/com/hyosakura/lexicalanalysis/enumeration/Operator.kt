@@ -32,4 +32,8 @@ enum class Operator(override val value: String) : Token {
     SOUT("<<");
 
     override val type: String = "特殊字符"
+
+    override fun toString(): String {
+        return "<$type,$value>"
+    }
 }

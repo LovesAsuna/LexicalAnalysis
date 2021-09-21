@@ -6,18 +6,22 @@ package com.hyosakura.lexicalanalysis.enumeration
 interface Token {
     val value: String
     val type: String
+
+    abstract class PrintableToken : Token {
+        override fun toString(): String {
+            return "<$type,$value>"
+        }
+    }
 }
 
-class Identifier(override val value: String) : Token {
+class Identifier(override val value: String) : Token.PrintableToken() {
     override val type: String = "标识符"
 }
 
-class Number(override val value: String) : Token {
+class Number(override val value: String) : Token.PrintableToken() {
     override val type: String = "数"
 }
 
-class TString(override val value: String) : Token {
+class TString(override val value: String) : Token.PrintableToken() {
     override val type: String = "串"
 }
-
-class ConverterToken(override val value: String, override val type: String) : Token

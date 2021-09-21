@@ -73,4 +73,8 @@ enum class KeyWord(override val value: String) : Token {
     COUT("cout");
 
     override val type: String = "关键字"
+
+    override fun toString(): String {
+        return "<$type,$value>"
+    }
 }

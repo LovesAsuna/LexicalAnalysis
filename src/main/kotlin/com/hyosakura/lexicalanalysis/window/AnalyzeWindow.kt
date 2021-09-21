@@ -16,7 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -24,6 +27,9 @@ import androidx.compose.ui.window.*
 import com.hyosakura.lexicalanalysis.common.LocalAppResources
 import com.hyosakura.lexicalanalysis.util.FileDialog
 import kotlinx.coroutines.launch
+import org.slf4j.LoggerFactory
+
+private val log = LoggerFactory.getLogger("com.hyosakura.lexicalanalysis.window.AnalyzeWindow")
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.ui.unit.ExperimentalUnitApi::class)
 @Composable
@@ -32,7 +38,11 @@ fun AnalyzeWindow(state: AnalyzeWindowState) {
 
     fun drawResult(state: AnalyzeWindowState) {
         state.tokens.clear()
-        state.tokens.addAll(state.wordSplit.split(state.text))
+        try {
+            state.tokens.addAll(state.analyzer.analyze(state.text))
+        } catch (e: Exception) {
+            log.error("", e)
+        }
     }
 
     fun exit() = scope.launch { state.exit() }
@@ -46,6 +56,28 @@ fun AnalyzeWindow(state: AnalyzeWindowState) {
         LaunchedEffect(Unit) { state.run() }
 
         WindowMenuBar(state)
+
+        if (state.openErrorDialog) {
+            Dialog(
+                onCloseRequest = {
+                    state.openErrorDialog = false
+                },
+                resizable = false,
+                state = rememberDialogState(size = WindowSize(Dp.Unspecified, Dp.Unspecified))
+            ) {
+                val stateHorizontal = rememberScrollState(0)
+                Box(modifier = Modifier.verticalScroll(stateHorizontal).size(1000.dp, 800.dp).background(Color(255, 255, 210))) {
+                    Text(
+                        text = state.errorText,
+                        style = TextStyle(color = Color.Red)
+                    )
+                    VerticalScrollbar(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        adapter = rememberScrollbarAdapter(stateHorizontal)
+                    )
+                }
+            }
+        }
 
         Column(modifier = Modifier.background(Color(255, 255, 210))) {
             Box(modifier = Modifier.width(800.dp).height(400.dp)) {

@@ -1,0 +1,33 @@
+Configuration:
+  status: warn
+  name: YAMLConfigTest
+  thresholdFilter:
+    level: debug
+  packages: "com.hyosakura.lexicalanalysis.log"
+  appenders:
+    Console:
+      name: STDOUT
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%d{ABSOLUTE} [%level] [%t] %c{1.} - %m%n"
+    Gui:
+      name: gui
+      PatternLayout:
+        Pattern: "%d{ABSOLUTE} [%level] [%t] %c{1.} - %m%n"
+  Loggers:
+    logger:
+      - name: com.hyosakura.lexicalanalysis.util
+        level: debug
+        additivity: false
+        AppenderRef:
+          ref: STDOUT
+      - name: com.hyosakura.lexicalanalysis.window
+        level: error
+        additivity: false
+        AppenderRef:
+          - ref: gui
+          - ref: STDOUT
+    Root:
+      level: error
+      AppenderRef:
+        ref: STDOUT
